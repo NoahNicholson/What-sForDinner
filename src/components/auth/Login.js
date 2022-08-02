@@ -15,12 +15,12 @@ export const Login = () => {
             .then(foundUsers => {
                 if (foundUsers.length === 1) {
                     const user = foundUsers[0]
-                    localStorage.setItem("dinner_user", JSON.stringify({
+                    localStorage.setItem("recipe_user", JSON.stringify({
                         id: user.id,
                         staff: user.isStaff
                     }))
 
-                    navigate("/")
+                    navigate("/recipes")
                 }
                 else {
                     window.alert("Invalid login")

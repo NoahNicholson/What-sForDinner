@@ -21,12 +21,12 @@ export const Register = (props) => {
             .then(res => res.json())
             .then(createdUser => {
                 if (createdUser.hasOwnProperty("id")) {
-                    localStorage.setItem("dinner_user", JSON.stringify({
+                    localStorage.setItem("recipe_user", JSON.stringify({
                         id: createdUser.id,
                         staff: createdUser.isStaff
                     }))
 
-                    navigate("/")
+                    navigate("/recipes")
                 }
             })
     }
