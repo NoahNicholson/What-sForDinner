@@ -3,28 +3,41 @@ import { useEffect, useState } from "react"
 const localRecipeUser = localStorage.getItem("recipe_user")
 const recipeUserObject = JSON.parse(localRecipeUser)
 
-export const RecipeLikes = ({ searchTermState }) => {
-    const [likes, setLikes] = useState([])
-    useEffect(
-        () => {
-            fetch(' http://localhost:8088/likedRecipes?_expand=recipe')
+export const RecipeLikes = () => {
+    const [likes, setLikes] = useState([]) //setting likes to intial state 
+    //watches state
+    useEffect(() => {
+            fetch(`http://localhost:8088/likedRecipes?_expand=recipe&userId=${recipeUserObject.id}`)
                 .then(response => response.json())
                 .then((likesArray) => {
                     setLikes(likesArray)
 
                 })
         },
-        [] 
+        [] //dependacy array
     )
-    
-    
+
+    const deleteRecipe = (recipeId) => {
+        fetch(`http://localhost:8088/likedRecipes/${recipeId}`, {
+            method: "DELETE",
+//re renders with database info
+        }).then(() => {
+         return fetch(`http://localhost:8088/likedRecipes?_expand=recipe&userId=${recipeUserObject.id}`)
+        })
+            .then(response => response.json())
+            .then((likesArray) => {
+                setLikes(likesArray)
+
+            })
+    }
+
     return <>
-        
+
         <h2>Liked  Recipes</h2>
 
         <article className="recipe">
             {
-            likes.map(
+                likes.map(
                     (like) => {
                         return <section key={like.id} className="recipe">
                             <header>{like.recipe.foodName}</header>
@@ -33,20 +46,13 @@ export const RecipeLikes = ({ searchTermState }) => {
                             <p>prep time:{like.recipe.prepTime}.</p>
                             <p>ingredients: {like.recipe.ingredients}.</p>
                             <p>instructions: {like.recipe.instructions}.</p>
-                            <footer> {like.recipe.foodType}</footer>
-                            <button onClick={()=>{deleteRecipe(like.id)}}>  Un-Save</button>
+                            <button onClick={() => { deleteRecipe(like.id) }}>  Un-Save</button>
                         </section>
-                 }
+                    }
                 )
             }
         </article>
-    </>    
-    
-}
-const deleteRecipe = (recipeId) => {
-    fetch(`http://localhost:8088/likedRecipes/${recipeId}`, {
-        method: "DELETE",
-        
-    }) 
-    window.location.reload()
+    </>
+
+
 }

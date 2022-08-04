@@ -7,7 +7,8 @@ export const NavBar = () => {
     return (
         <ul className="navbar">
             <li className="navbar__item active">
-                <Link className="navbar__link" to="/liked">Liked</Link>
+                <Link className="navbar__link" to="/liked">myLiked</Link>
+                <Link className="navbar__link" to="/recipes">   Home</Link>
             </li>
             {
                 localStorage.getItem("recipe_user")

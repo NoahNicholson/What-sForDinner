@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-
-export const RecipeList = ({ searchTermState }) => {
+export const RecipeList = () => {
     const [recipes, setRecipes] = useState([])
-   // const [filteredRecipes, setFiltered] = useState([])
- 
-    const navigate = useNavigate()
-
+   
+    const navigate = useNavigate();
+  
     const localRecipeUser = localStorage.getItem("recipe_user")
     const recipeUserObject = JSON.parse(localRecipeUser)
-
-
 //grabs all of my recipes from API
     useEffect(
         () => {
@@ -24,18 +20,11 @@ export const RecipeList = ({ searchTermState }) => {
         },
         [] 
     )
-
-
-
-
-
-
-
     return <>
         {
             
         }
-        <h2>List of Recipes</h2>
+        <h2>Try out these delicious recipes!</h2>
 
         <article className="recipe">
             {
@@ -44,12 +33,7 @@ export const RecipeList = ({ searchTermState }) => {
                         return <section key={recipe.id} className="recipe">
                             <header>{recipe.foodName}</header>
                             <p>{recipe.description}</p>
-                            <p>cook time: {recipe.cookTime}.</p>
-                            <p>prep time:{recipe.prepTime}.</p>
-                            <p>ingredients: {recipe.ingredients}.</p>
-                            <p>instructions: {recipe.instructions}.</p>
-                            <footer> {recipe.foodType}</footer>
-                            <button onClick={()=>{likeRecipe(recipe.id,recipeUserObject)}}>  Save</button>
+                            <button onClick={() => navigate(`/recipe/fullrecipe/${recipe.id}`)}>  Full Recipe</button>
                         </section>
                  }
                 )
@@ -59,11 +43,4 @@ export const RecipeList = ({ searchTermState }) => {
 
                        
 }
-//function that sends the liked information to data base
-const likeRecipe = (recipeId,user) => {
-    fetch("http://localhost:8088/likedRecipes", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify({"recipeId":recipeId,"userId":user.id})
-    })
-}
+
