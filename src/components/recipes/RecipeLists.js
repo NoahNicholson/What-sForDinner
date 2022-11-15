@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Card, CardBody } from "reactstrap"
 
 export const RecipeList = () => {
     const [recipes, setRecipes] = useState([])
@@ -21,24 +22,46 @@ export const RecipeList = () => {
         [] 
     )
     return <>
-        {
-            
-        }
-        <h2>Try out these delicious recipes!</h2>
-
-        <article className="recipe">
+  
+    
+      
+   
+            <div 
+            className="d-grid gap-5"
+            style={{gridTemplateColumns: " repeat(auto-fit, 28rem"}}
+            >
             {
             recipes.map(
                     (recipe) => {
-                        return <section key={recipe.id} className="recipe">
-                            <header>{recipe.foodName}</header>
-                            <p>{recipe.description}</p>
-                            <button onClick={() => navigate(`/recipe/fullrecipe/${recipe.id}`)}>  Full Recipe</button>
-                        </section>
+                        
+                        return <CardBody key={recipe.id} className="recipe">
+                            <pre>
+
+                                
+                            </pre>
+                            <img className="image" src={recipe.img}  />
+                            <h5><b>{recipe.foodName}</b></h5>
+                            <h8>{recipe.description}</h8>
+                            <pre>
+
+                                
+                            </pre>
+                            <button className="button"
+                            style={{
+                                backgroundColor: 'salmon'
+                        
+                            }}
+                             onClick={() => navigate(`/recipe/fullrecipe/${recipe.id}`)}>view</button>
+                        
+                        </CardBody>
+                        
                  }
                 )
             }
-        </article>
+            </div>
+         
+        
+        
     </>    
 
                        

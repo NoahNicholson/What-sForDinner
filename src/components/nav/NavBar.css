@@ -1,15 +1,15 @@
-.navbar {
+.nav{
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: left;
+    background-color: rgb(40, 38, 38);
+    z-index: 2147483647;
+    position: sticky;
+    top:0
 }
-
-.navbar__item {
-    flex-basis: 20%;
-    list-style-type: none;
+.navtext{
+    display: flex;
+    position: sticky;
+    justify-content: center;
+    top: 0%;
+    color: rgb(228, 215, 215);
+    
 }
-
-.navbar__logout {
-    margin-left: auto;
-}
-

@@ -1,25 +1,40 @@
-import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
+import React, { useState } from 'react';
+import {Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink, NavbarText } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const NavBar = () => {
-    const navigate = useNavigate()
+export const NavBar = (args) => {
+    const [collapsed, setCollapsed] = useState(true);
+
+    const toggleNavbar = () => setCollapsed(!collapsed);
+ 
 
     return (
-        <ul className="navbar">
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/liked">myLiked</Link>
-                <Link className="navbar__link" to="/recipes">   Home</Link>
-            </li>
-            {
-                localStorage.getItem("recipe_user")
-                    ? <li className="navbar__item navbar__logout">
-                        <Link className="navbar__link" to="" onClick={() => {
-                            localStorage.removeItem("recipe_user")
-                            navigate("/", {replace: true})
-                        }}>Logout</Link>
-                    </li>
-                    : ""
-            }
-        </ul>
-    )
-}
+      <div className= "nav">
+        <Navbar dark> 
+        
+          <NavbarToggler onClick={toggleNavbar} className="me-2" />
+          <NavbarText className="navtext"><h4>What's For Dinner ?</h4></NavbarText>
+
+          <Collapse isOpen={!collapsed} navbar>
+            <Nav navbar>
+            <NavItem>
+                <NavLink href="/recipes">Home</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/liked">MyLikes</NavLink>
+                </NavItem>
+              <NavItem>
+                <NavLink href="" onClick={() => {localStorage.removeItem("recipe_user")}}>Logout</NavLink>
+              </NavItem>         
+            </Nav>
+          </Collapse>
+          
+        </Navbar>
+      </div>
+      
+    
+    );
+  }
+
+        

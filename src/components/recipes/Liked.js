@@ -16,11 +16,11 @@ export const RecipeLikes = () => {
         },
         [] //dependacy array
     )
-
+//removes the singular recipe id from data base
     const deleteRecipe = (recipeId) => {
         fetch(`http://localhost:8088/likedRecipes/${recipeId}`, {
             method: "DELETE",
-//re renders with database info
+//re renders with database info to application
         }).then(() => {
          return fetch(`http://localhost:8088/likedRecipes?_expand=recipe&userId=${recipeUserObject.id}`)
         })
@@ -32,21 +32,23 @@ export const RecipeLikes = () => {
     }
 
     return <>
-
-        <h2>Liked  Recipes</h2>
-
         <article className="recipe">
             {
                 likes.map(
                     (like) => {
-                        return <section key={like.id} className="recipe">
-                            <header>{like.recipe.foodName}</header>
-                            <p>{like.recipe.description}</p>
-                            <p>cook time: {like.recipe.cookTime}.</p>
-                            <p>prep time:{like.recipe.prepTime}.</p>
-                            <p>ingredients: {like.recipe.ingredients}.</p>
-                            <p>instructions: {like.recipe.instructions}.</p>
-                            <button onClick={() => { deleteRecipe(like.id) }}>  Un-Save</button>
+                        return <section key={like.id} className="recipe">\
+                            <h1>Liked  Recipes</h1>
+                            <pre>
+
+                                
+                            </pre>
+                            <img className="image" src={like.recipe.img}  />
+                            <h3><b>{like.recipe.foodName}</b></h3>
+                            <p><b>cook time:</b> {like.recipe.cookTime}.</p>
+                            <p><b>prep time:</b>{like.recipe.prepTime}.</p>
+                            <p><b>ingredients:</b> {like.recipe.ingredients}.</p>
+                            <p><b>instructions:</b> {like.recipe.instructions}.</p>
+                            <button onClick={() => { deleteRecipe(like.id) }}>  Delete</button>
                         </section>
                     }
                 )

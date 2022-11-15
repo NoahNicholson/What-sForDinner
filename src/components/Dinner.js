@@ -19,6 +19,7 @@ export const Dinner = () => {
 			<Authorized>
 				<>
 					<NavBar />
+					
 					<ApplicationViews />
                     
 				</>

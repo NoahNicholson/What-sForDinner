@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import "./fullRecipe.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const FullRecipeList = () => {
+    //the recipe id number from url
     const {recipeId}= useParams()
-    const [recipes, setRecipes] = useState([])
-    
+    const [recipe, setRecipe] = useState([])
+    const [isActive, setIsActive] = useState(false);
+
+  const handleClick = () => {
+      setIsActive(true)
+  }
 
     const localRecipeUser = localStorage.getItem("recipe_user")
     const recipeUserObject = JSON.parse(localRecipeUser)
@@ -13,39 +20,32 @@ export const FullRecipeList = () => {
 //grabs all of my recipes from API
     useEffect(
         () => {
-            fetch(' http://localhost:8088/recipes')
+            fetch(`http://localhost:8088/recipes/${recipeId}`)
                 .then(response => response.json())
-                .then((recipesArray) => {
-                    setRecipes(recipesArray)
+                .then((recipeObj) => {
+                    setRecipe(recipeObj)
 
                 })
         },
-        [] 
+        [] //dependacy array
     )
     return <>
-        <h2>List of Recipes</h2>
-
-        <article className="recipe">
-         {
-           recipes.map(
-                    (recipe) => {
-                        //changes recipe id to non string
-                        if(parseInt(recipeId) === recipe.id) {
-
-                            return <section key={recipe.id} className="recipe">
-                            <header>{recipe.foodName}</header>
-                            <p>{recipe.description}</p>
-                            <p>cook time: {recipe.cookTime}.</p>
-                            <p>prep time:{recipe.prepTime}.</p>
-                            <p>ingredients: {recipe.ingredients}.</p>
-                            <p>instructions: {recipe.instructions}.</p>
-                            
-                            <button onClick={()=>{likeRecipe(recipe.id,recipeUserObject)}}>  Save</button>
-                        </section>
-                        }
-                 }
-                )
-            }
+     <article  className="recipe">
+        <h2>{recipe.foodName}</h2>
+            <section key={recipe.id} className="recipe">
+            <img className="image" src={recipe.img}  />
+            <button  
+              style={{
+                
+                backgroundColor: isActive ? 'salmon' : '',
+                color: isActive ? 'white' : '',
+              }}
+            onClick={()=>{likeRecipe(recipe.id,recipeUserObject);handleClick()}}>  Like</button>
+            <p><b>Cook time:</b>{recipe.cookTime}.</p>
+            <p><b>Prep time:</b>{recipe.prepTime}.</p>
+            <p><b>Ingredients:</b>{recipe.ingredients}.</p>
+            <p><b>Instructions:</b>{recipe.instructions}.</p>
+            </section>
         </article>
     </>    
 }
